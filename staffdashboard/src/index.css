@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-ink bg-surface-sunk;
+    margin: 0;
+    min-width: 320px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display text-ink font-semibold tracking-tight;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    @apply select-none;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.16);
+    color: #0f172a;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+
+/* ============================================================
+   COMPONENTS
+   ============================================================ */
+
+@layer components {
+
+  /* ----------------------------------------------------------
+     CARDS
+     ---------------------------------------------------------- */
+
+  .card {
+    @apply bg-surface border border-surface-border rounded-card shadow-card transition-all duration-200;
+  }
+
+  .card:hover {
+    @apply shadow-cardHover;
+  }
+
+  .card-static {
+    @apply bg-surface border border-surface-border rounded-card shadow-card;
+  }
+
+
+  /* ----------------------------------------------------------
+     PRIMARY BUTTON
+     ---------------------------------------------------------- */
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-brand-600 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-sm;
+  }
+
+
+  /* ----------------------------------------------------------
+     SECONDARY BUTTON
+     ---------------------------------------------------------- */
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-surface-border bg-white px-4 py-2.5 text-sm font-semibold text-ink shadow-sm transition-all duration-200 hover:bg-surface-sunk hover:border-slate-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+
+  /* ----------------------------------------------------------
+     GHOST BUTTON
+     ---------------------------------------------------------- */
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-ink-soft transition-all duration-200 hover:bg-surface-sunk hover:text-ink active:scale-[0.98];
+  }
+
+
+  /* ----------------------------------------------------------
+     INPUT
+     ---------------------------------------------------------- */
+
+  .input-field {
+    @apply w-full rounded-lg border border-surface-border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint shadow-sm outline-none transition-all duration-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 focus:shadow-sm;
+  }
+
+
+  /* ----------------------------------------------------------
+     TEXTAREA
+     ---------------------------------------------------------- */
+
+  .textarea-field {
+    @apply w-full min-h-[120px] resize-y rounded-lg border border-surface-border bg-white px-3.5 py-3 text-sm leading-6 text-ink placeholder:text-ink-faint shadow-sm outline-none transition-all duration-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10;
+  }
+
+
+  /* ----------------------------------------------------------
+     SELECT
+     ---------------------------------------------------------- */
+
+  .select-field {
+    @apply w-full appearance-none rounded-lg border border-surface-border bg-white px-3.5 py-2.5 text-sm font-medium text-ink shadow-sm outline-none transition-all duration-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10;
+  }
+
+
+  /* ----------------------------------------------------------
+     LABEL
+     ---------------------------------------------------------- */
+
+  .label {
+    @apply block mb-1.5 text-xs font-bold uppercase tracking-wide text-ink-soft;
+  }
+
+
+  /* ----------------------------------------------------------
+     BADGE BASE
+     ---------------------------------------------------------- */
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide;
+  }
+
+
+  /* ----------------------------------------------------------
+     PAGE CONTAINER
+     ---------------------------------------------------------- */
+
+  .page-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+
+  /* ----------------------------------------------------------
+     SECTION
+     ---------------------------------------------------------- */
+
+  .section {
+    @apply rounded-2xl border border-surface-border bg-white shadow-sm;
+  }
+
+
+  /* ----------------------------------------------------------
+     DIVIDER
+     ---------------------------------------------------------- */
+
+  .divider {
+    @apply border-t border-surface-border;
+  }
+}
+
+
+/* ============================================================
+   UTILITY ANIMATIONS
+   ============================================================ */
+
+@layer utilities {
+
+  .animate-in {
+    animation: fadeIn 0.4s ease-out both;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.45s ease-out both;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out both;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.35s ease-out both;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
