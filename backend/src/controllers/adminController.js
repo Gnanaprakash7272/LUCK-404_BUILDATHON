@@ -167,6 +167,45 @@ const getComparativeAnalytics = (req, res) => {
   }
 };
 
+const { getOrGenerateInsight } = require('../ai/aiService');
+
+const getAIInsights = async (req, res) => {
+  try {
+    const students = db.prepare(`
+      SELECT s.user_id as student_id, u.name as student_name
+      FROM students s
+      JOIN users u ON s.user_id = u.id
+    `).all();
+
+    const results = [];
+    for (const st of students) {
+      const insight = await getOrGenerateInsight(st.student_id, 'admin');
+      
+      let type = 'anomaly';
+      if (insight.risk_level === 'HIGH' || insight.risk_level === 'MEDIUM') type = 'risk';
+      if (insight.risk_level === 'LOW') type = 'positive';
+
+      results.push({
+        id: insight.id,
+        student_id: st.student_id,
+        type: type,
+        title: `${st.student_name} (${insight.risk_level} Risk)`,
+        description: insight.explanation,
+        evidence: `Risk Score: ${insight.risk_score}/100. Trend: ${insight.trend}. Weak Subject: ${insight.weak_subject || 'None'}. Pending: ${insight.pending_assignments}`,
+        recommendation: insight.recommendation,
+        risk_score: insight.risk_score
+      });
+    }
+
+    results.sort((a, b) => b.risk_score - a.risk_score);
+
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getAllTeachers,
@@ -174,5 +213,6 @@ module.exports = {
   createCourse,
   getOverviewAnalytics,
   getClassAnalytics,
-  getComparativeAnalytics
+  getComparativeAnalytics,
+  getAIInsights
 };

@@ -93,12 +93,34 @@ async function runTests() {
     res = await fetch(`${baseUrl}/admin/analytics/overview`, {
       headers: { 'Authorization': `Bearer ${studentToken}` }
     });
-    console.log('Student -> Admin Endpoint status:', res.status);
+    console.log(`Student -> Admin Endpoint status: ${res.status}`);
     if (res.status !== 403) throw new Error('Security test failed');
 
+    console.log('\n--- 10. Testing Admin AI Insights (Sanity Check) ---');
+    // 10a. No auth
+    res = await fetch(`${baseUrl}/admin/ai-insights`);
+    console.log(`No Auth AI Insights Status: ${res.status}`);
+
+    // 10b. Admin auth
+    res = await fetch(`${baseUrl}/admin/ai-insights`, { headers: authHeaders });
+    const insights = await res.json();
+    console.log(`With Auth AI Insights Status: ${res.status}`);
+    
+    if (res.status === 200 && Array.isArray(insights)) {
+      const john = insights.find(i => i.title.includes('John Doe'));
+      if (john) {
+        console.log(`John Doe Found! Risk Level: ${john.type}, Title: ${john.title}`);
+        console.log(`John Doe Evidence: ${john.evidence}`);
+      } else {
+        console.log('John Doe not found in insights.');
+      }
+    }
+
     console.log('\n✅ ALL ADMIN API TESTS PASSED!');
+    process.exit(0);
   } catch (err) {
     console.error('❌ TEST FAILED:', err.message);
+    process.exit(1);
   } finally {
     console.log('Shutting down server...');
     serverProcess.kill();

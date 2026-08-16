@@ -14,4 +14,6 @@ router.get('/analytics/overview', adminController.getOverviewAnalytics);
 router.get('/analytics/class/:courseId', adminController.getClassAnalytics);
 router.get('/analytics/comparative', adminController.getComparativeAnalytics);
 
+router.get('/ai-insights', adminController.getAIInsights);
+
 module.exports = router;
