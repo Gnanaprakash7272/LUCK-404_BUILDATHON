@@ -1,0 +1,37 @@
+# CYVORA Dependencies
+
+# Data Processing & Analysis
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+pyyaml>=6.0
+
+# Machine Learning
+scikit-learn>=1.2.0
+xgboost>=1.7.0
+lightgbm>=3.3.0
+
+# Explainable AI (XAI)
+shap>=0.41.0
+lime>=0.2.0
+
+# API & Dashboard
+fastapi>=0.95.0
+uvicorn>=0.21.0
+streamlit>=1.22.0
+
+# Database
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+
+# Testing & Utilities
+pytest>=7.3.0
+pydantic>=2.0.0
+tqdm>=4.65.0
+requests>=2.28.0
+
+# Authentication (JWT + Password Hashing)
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-dotenv>=1.0.0
+email-validator>=2.0.0

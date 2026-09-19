@@ -1,0 +1,18 @@
+project:
+  name: CYVORA
+  title: Cyber Vulnerability and Attack Progression Intelligence
+  version: 0.1.0
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  vulnerability_dir: data/vulnerability
+
+models:
+  detector_dir: models/detector
+  stage_dir: models/stage
+  predictor_dir: models/predictor
+
+logging:
+  level: INFO
+  file: logs/cyvora.log
