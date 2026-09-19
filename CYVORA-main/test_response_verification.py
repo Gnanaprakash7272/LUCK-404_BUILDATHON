@@ -22,6 +22,7 @@ import time
 import uuid
 import subprocess
 import requests
+import json
 
 # Ensure workspace root is in sys.path
 WORKSPACE = os.path.dirname(os.path.abspath(__file__))
@@ -158,94 +159,10 @@ BENIGN_FEATURES = {
     "ACK Flag": 1.0,
 }
 
-# Heartbleed Attack Signature (High-confidence attack -> triggers BLOCK)
-HEARTBLEED_FEATURES = {
-    "Destination Port": 444.0,
-    "Flow Duration": 119326262.0,
-    "Total Fwd Packets": 2772.0,
-    "Total Backward Packets": 4603.0,
-    "Total Length of Fwd Packets": 51104.0,
-    "Total Length of Bwd Packets": 19448832.0,
-    "Fwd Packet Length Max": 240.0,
-    "Fwd Packet Length Min": 0.0,
-    "Fwd Packet Length Mean": 18.43,
-    "Fwd Packet Length Std": 15.65,
-    "Bwd Packet Length Max": 14480.0,
-    "Bwd Packet Length Min": 0.0,
-    "Bwd Packet Length Mean": 4225.25,
-    "Bwd Packet Length Std": 3280.99,
-    "Flow Bytes/s": 163417.0,
-    "Flow Packets/s": 61.8,
-    "Flow IAT Mean": 16181.0,
-    "Flow IAT Std": 222625.0,
-    "Flow IAT Max": 10000000.0,
-    "Flow IAT Min": 1.0,
-    "Fwd IAT Total": 119000000.0,
-    "Fwd IAT Mean": 43062.0,
-    "Fwd IAT Std": 357417.0,
-    "Fwd IAT Max": 10000000.0,
-    "Fwd IAT Min": 1.0,
-    "Bwd IAT Total": 119000000.0,
-    "Bwd IAT Mean": 25932.0,
-    "Bwd IAT Std": 272635.0,
-    "Bwd IAT Max": 10000000.0,
-    "Bwd IAT Min": 1.0,
-    "Fwd PSH Flags": 0.0,
-    "Bwd PSH Flags": 0.0,
-    "Fwd URG Flags": 0.0,
-    "Bwd URG Flags": 0.0,
-    "Fwd Header Length": 88720.0,
-    "Bwd Header Length": 147312.0,
-    "Fwd Packets/s": 23.23,
-    "Bwd Packets/s": 38.57,
-    "Min Packet Length": 0.0,
-    "Max Packet Length": 14480.0,
-    "Packet Length Mean": 2643.68,
-    "Packet Length Std": 3087.05,
-    "Packet Length Variance": 9530000.0,
-    "FIN Flag Count": 0.0,
-    "SYN Flag Count": 0.0,
-    "RST Flag Count": 0.0,
-    "PSH Flag Count": 1.0,
-    "ACK Flag Count": 0.0,
-    "URG Flag Count": 0.0,
-    "CWE Flag Count": 0.0,
-    "ECE Flag Count": 0.0,
-    "Down/Up Ratio": 1.0,
-    "Average Packet Size": 2644.04,
-    "Avg Fwd Segment Size": 18.43,
-    "Avg Bwd Segment Size": 4225.25,
-    "Fwd Header Length.1": 88720.0,
-    "Subflow Fwd Packets": 2772.0,
-    "Subflow Fwd Bytes": 51104.0,
-    "Subflow Bwd Packets": 4603.0,
-    "Subflow Bwd Bytes": 19448832.0,
-    "Init_Win_bytes_forward": 29200.0,
-    "Init_Win_bytes_backward": 243.0,
-    "act_data_pkt_fwd": 250.0,
-    "min_seg_size_forward": 32.0,
-    "Active Mean": 28410.0,
-    "Active Std": 4627.0,
-    "Active Max": 35359.0,
-    "Active Min": 22443.0,
-    "Idle Mean": 9974261.0,
-    "Idle Std": 26487.0,
-    "Idle Max": 10000000.0,
-    "Idle Min": 9912079.0,
-    "Fwd Avg Bytes/Bulk": 0.0,
-    "Fwd Avg Packets/Bulk": 0.0,
-    "Fwd Avg Bulk Rate": 0.0,
-    "Bwd Avg Bytes/Bulk": 0.0,
-    "Bwd Avg Packets/Bulk": 0.0,
-    "Bwd Avg Bulk Rate": 0.0,
-    "Fwd Packets Length Std": 15.65,
-    "Bwd Packets Length Std": 3280.99,
-    "FIN Flag": 0.0,
-    "SYN Flag": 0.0,
-    "RST Flag": 0.0,
-    "PSH Flag": 1.0,
-    "ACK Flag": 0.0,
-}
+# Heartbleed Attack Signature (100% confidence attack in V21.1 -> triggers BLOCK)
+_hb_req_file = os.path.join(WORKSPACE, "backend", "heartbleed_api_request.json")
+with open(_hb_req_file, "r", encoding="utf-8") as _f:
+    HEARTBLEED_FEATURES = json.load(_f).get("features", {})
 
 
 def start_server_if_needed():
