@@ -5,7 +5,6 @@ import { FlowPreset } from '../data/sampleFlows';
 import { FeatureInputGroup } from '../components/prediction/FeatureInputGroup';
 import { PresetSelector } from '../components/prediction/PresetSelector';
 import { PredictionResultCard } from '../components/prediction/PredictionResultCard';
-import { ShapExplanationView } from '../components/prediction/ShapExplanationView';
 import { predictThreat } from '../services/predictionService';
 import { PredictionResult } from '../types/api';
 import { useDemoMode } from '../hooks/useDemoMode';
@@ -92,7 +91,7 @@ export const AiPrediction: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: AI Result Card & SHAP View */}
+        {/* Right Column: AI Result Card */}
         <div className="lg:col-span-5 space-y-6">
           {apiErrorMessage && (
             <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-start gap-2 shadow-sm">
@@ -106,12 +105,6 @@ export const AiPrediction: React.FC = () => {
 
           {/* AI Result Card */}
           <PredictionResultCard result={result} isSimulated={isResultSimulated || isDemoMode} />
-
-          {/* Explainable AI / SHAP View */}
-          <ShapExplanationView
-            shapData={null}
-            predictionName={result ? result.prediction : undefined}
-          />
         </div>
       </div>
     </div>
